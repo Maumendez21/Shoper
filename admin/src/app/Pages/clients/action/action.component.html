@@ -1,0 +1,88 @@
+<!-- Page title-->
+<div class="border-bottom  mb-3">
+<h1 class="mt-2 mt-md-4 mb-3 pt-2">Registro de cliente</h1>
+<div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+    <p class="text-muted">Operaciones de un cliente.</p>
+    
+</div>
+</div>
+
+<div class="card box-shadow-sm">
+    <form [formGroup]="clientForm" (ngSubmit)="register()" >
+    <div class="card-header">
+        <h5 style="margin-bottom: 0px;">Registro de cliente</h5>
+    </div>
+    <div class="card-body">
+
+
+        <div class="row">
+
+            <div class="col-md-4 form-group">
+                <label for="validationCustom01" class="form-label">Nombres</label>
+                <input
+                formControlName="nombres"
+                class="form-control" 
+                type="text" 
+                placeholder="Nombre(s)" >
+            </div>
+
+            <div class="col-md-4 form-group">
+                <label for="validationCustom01" class="form-label">Apellidos</label>
+                <input 
+                formControlName="apellidos"
+                class="form-control" 
+                type="text" 
+                placeholder="Apellidos" >
+            </div>
+
+            <div class="col-md-4 form-group">
+                <label for="validationCustom01" class="form-label">Correo electrónico</label>
+                <input 
+                formControlName="email"
+                class="form-control" 
+                type="text" 
+                placeholder="email" >
+            </div>
+
+            <div class="col-md-4 form-group">
+                <label for="validationCustom01" class="form-label">Telefono</label>
+                <input 
+                class="form-control" 
+                formControlName="telefono"
+                type="text" 
+                placeholder="Telefono" >
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="validationCustom01" class="form-label">Fecha nacimiento</label>
+                <input 
+                class="form-control" 
+                formControlName="f_nacimiento"
+                type="date" 
+                placeholder="Fecha de nacimiento" >
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="validationCustom01" class="form-label">DNI</label>
+                <input 
+                class="form-control" 
+                type="number" 
+                formControlName="dni"
+                placeholder="DNI" >
+            </div>
+
+            <div class="col-md-4">
+                <label for="validationCustom01" class="form-label">Genero</label>
+                <select formControlName="genero" class="form-control custom-select" id="">
+                <option value="0" disabled selected>-- Seleccionar genero -- </option>
+                <option value="Masculino">Masculino</option>
+                <option value="Femenino">Femenino</option>
+                </select>
+            </div>
+        </div>
+        </div>
+        <div class="card-footer">
+            <!-- <button type="button" class="btn btn-primary">sada</button> -->
+            <button class="btn btn-primary mr-3" type="button" type="submit">Crear cliente</button>
+            <button class="btn btn-warning" [routerLink]="'/clients'">Regresar</button>
+        </div>
+    </form>
+</div>    

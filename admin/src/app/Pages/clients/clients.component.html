@@ -1,0 +1,70 @@
+<!-- Page title-->
+<div class="border-bottom mb-3">
+  <h1 class="mt-2 mt-md-4 mb-3 pt-2">Clientes</h1>
+  <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+    <p class="text-muted">Este módulo lista todos los clientes de la tienda.</p>
+    <p class="font-size-sm font-weight-medium pl-md-4"><a class="text-nowrap" [routerLink]="'/clients/nuevo'">Registrar nuevo<i class="cxi-angle-right font-size-base align-middle ml-1"></i></a></p>
+  </div>
+</div>
+
+<div class="card box-shadow-sm">
+  <div class="card-header">
+      <h5 style="margin-bottom: 0px;">Filtro de clientes</h5>
+  </div>
+  <div class="card-header">
+    <form class="form-inline pt-2">
+      <label class="sr-only" for="inline-form-input-name">Apellidos</label>
+      <input class="form-control mb-3 mr-sm-4" (keyup)="filterClients('ap')" [(ngModel)]="apellido" name="apellido" type="text" id="inline-form-input-name" placeholder="Apellidos">
+      <label class="sr-only" for="inline-form-input-username">Correo</label>
+      <div class="input-group mb-3 mr-sm-4">
+      <div class="input-group-prepend">
+          <div class="input-group-text">@</div>
+      </div>
+      <input class="form-control" type="text" (keyup)="filterClients('email')" [(ngModel)]="correo" name="correo" id="inline-form-input-username" placeholder="Correo">
+      </div>
+    </form>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Correo</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let client of clients | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let i = index">
+            <th scope="row">{{i+1}}</th>
+            <td>{{client.nombres}}</td>
+            <td>{{client.apellidos}}</td>
+            <td>{{client.email}}</td>
+            <td>
+              <div class="btn-group dropdown">
+                <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Opciones
+                </button>
+                <div class="dropdown-menu">
+                  <a href="#" class="dropdown-item">Editar</a>
+                  <a href="#" class="dropdown-item">Eliminar</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card-footer">
+    <ngb-pagination 
+      [(page)]="page"
+      [pageSize]="pageSize"
+      [collectionSize]="clients.length"
+    >
+      
+    </ngb-pagination>
+  </div>
+</div>  
