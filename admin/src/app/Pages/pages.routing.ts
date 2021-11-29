@@ -5,6 +5,8 @@ import { HomeComponent } from './home/home.component';
 import { AdminGuard } from '../Guards/admin.guard';
 import { ClientsComponent } from './clients/clients.component';
 import { ActionComponent } from './clients/action/action.component';
+import { ProductsComponent } from './products/products.component';
+import { ActionProductsComponent } from './products/action-products/action-products.component';
 
 
 const routes: Routes = [
@@ -25,6 +27,15 @@ const routes: Routes = [
             { path: '', component: ClientsComponent},
             { path: ':id', component: ActionComponent},
             // { path: 'clients', component: ClientsComponent },
+        ]
+    },
+    {
+        path: 'products',
+        component: PagesComponent,
+        canActivate: [AdminGuard],
+        children: [
+            { path: '', component: ProductsComponent},
+            { path: ':id', component: ActionProductsComponent},
         ]
     }
 

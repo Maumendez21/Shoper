@@ -29,9 +29,24 @@ export class ClientService {
     return this.http.get(url, this.headers );
   }
 
+  getClientById(id: string): Observable<any>{
+    const url = base_url + `client/${id}`;
+    return this.http.get(url, this.headers );
+  }
+
   registerClientAdmin(data: any): Observable<any>{
     const url = base_url + `registro_cliente_admin`;
     return this.http.post( url, data, this.headers );
+  }
+
+  updateClientAdmin(data: any, id: string): Observable<any>{
+    const url = base_url + `update_client/${id}`;
+    return this.http.put( url, data, this.headers );
+  }
+
+  deleteClientAdmin(id: string): Observable<any>{
+    const url = base_url + `delete_client/${id}`;
+    return this.http.delete( url, this.headers );
   }
 
 

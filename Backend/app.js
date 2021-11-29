@@ -8,6 +8,7 @@ var app = express();
 
 var cliente_route = require('./Routes/cliente.routes');
 var admin_route = require('./Routes/admin.routes');
+var producto_route = require('./Routes/producto.routes');
 
 app.use(cors());
 
@@ -40,5 +41,6 @@ app.use((req,res,next)=>{
 
 app.use('/api', cliente_route);
 app.use('/api', admin_route);
+app.use('/api', producto_route);
 
 module.exports = app;

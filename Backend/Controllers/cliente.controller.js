@@ -123,6 +123,54 @@ const regsitro_cliente_admin = async (req, res) => {
 
 }
 
+const ActualizarClienteAdmin = async (req, res) => {
+
+
+    if (!req.uid || req.role !== 'ADMIN') {
+        return res.status(500).send({
+            ok: false,
+            message: 'Error, no tienes permisos.'
+        }); 
+    }
+
+    const id = req.params.id;
+
+    const cambiosCliente = {
+        ...req.body,
+    }
+
+    try {
+        const client = await cliente.findByIdAndUpdate({_id: id}, cambiosCliente);
+        return res.status(200).send({ok: true, cliente: client});
+    } catch (error) {
+        return res.status(500).send({ok: false, message:'Hubo un error, comunicate con el administrador.'});
+    }
+
+    
+}
+const BorrarClienteAdmin = async (req, res) => {
+
+
+    if (!req.uid || req.role !== 'ADMIN') {
+        return res.status(500).send({
+            ok: false,
+            message: 'Error, no tienes permisos.'
+        }); 
+    }
+
+    const id = req.params.id;
+
+
+    try {
+        await cliente.findByIdAndDelete({_id: id});
+        return res.status(200).send({ok: true, message: 'Cliente Eliminado'});
+    } catch (error) {
+        return res.status(500).send({ok: false, message:'Hubo un error, comunicate con el administrador.'});
+    }
+
+    
+}
+
 const cliente_list = async (req, res) => {
 
     let tipo = req.params.tipo;
@@ -147,9 +195,36 @@ const cliente_list = async (req, res) => {
     res.status(200).send({data:reg})
 }
 
+const getClienteById = async (req, res) => {
+    const id = req.params.id;
+
+    try {
+
+        const client = await cliente.findById(id);
+
+        res.status(200).send({
+            ok: true,
+            client
+        })
+        
+    } catch (error) {
+        res.status(500).send({
+            ok: false,
+            message: error.message + ''
+        });
+    }
+
+}
+
+
+
+
 module.exports = {
     registro_cliente,
     login_cliente,
     cliente_list,
-    regsitro_cliente_admin
+    regsitro_cliente_admin,
+    getClienteById,
+    ActualizarClienteAdmin,
+    BorrarClienteAdmin
 }

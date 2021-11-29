@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PagesModule } from './Pages/pages.module';
 import { AuthModule } from './auth/auth.module';
+import { NgxTinymceModule } from 'ngx-tinymce';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,7 @@ import { AuthModule } from './auth/auth.module';
     BrowserModule,
     AppRoutingModule,
     PagesModule,
-    AuthModule
+    AuthModule,
 
   ],
   providers: [],

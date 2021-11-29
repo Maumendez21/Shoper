@@ -1,6 +1,6 @@
 <!-- Page title-->
 <div class="border-bottom  mb-3">
-<h1 class="mt-2 mt-md-4 mb-3 pt-2">Registro de cliente</h1>
+<h1 class="mt-2 mt-md-4 mb-3 pt-2">{{title}} cliente</h1>
 <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
     <p class="text-muted">Operaciones de un cliente.</p>
     
@@ -10,12 +10,19 @@
 <div class="card box-shadow-sm">
     <form [formGroup]="clientForm" (ngSubmit)="register()" >
     <div class="card-header">
-        <h5 style="margin-bottom: 0px;">Registro de cliente</h5>
+        <h5 style="margin-bottom: 0px;">{{title}} cliente</h5>
     </div>
     <div class="card-body">
 
-
-        <div class="row">
+        <div *ngIf="loadingClient" class="row">
+            <div class="col-md-12 text-center">
+                <!-- Custom size border spinner -->
+                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="visually-hidden"></span>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!loadingClient" class="row">
 
             <div class="col-md-4 form-group">
                 <label for="validationCustom01" class="form-label">Nombres</label>
@@ -79,9 +86,13 @@
             </div>
         </div>
         </div>
-        <div class="card-footer">
+        <div *ngIf="!loadingClient" class="card-footer">
             <!-- <button type="button" class="btn btn-primary">sada</button> -->
-            <button class="btn btn-primary mr-3" type="button" type="submit">Crear cliente</button>
+            <button *ngIf="!loading" class="btn btn-primary mr-3" type="button" type="submit">Guardar Cambios</button>
+            <!-- Button with border spinner -->
+            <button *ngIf="loading" type="button" class="btn btn-primary btn-icon  mr-3" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            </button>
             <button class="btn btn-warning" [routerLink]="'/clients'">Regresar</button>
         </div>
     </form>

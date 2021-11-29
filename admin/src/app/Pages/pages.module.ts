@@ -8,6 +8,9 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClientsComponent } from './clients/clients.component';
 import { ActionComponent } from './clients/action/action.component';
+import { ProductsComponent } from './products/products.component';
+import { ActionProductsComponent } from './products/action-products/action-products.component';
+import { NgxTinymceModule } from 'ngx-tinymce';
 
 
 
@@ -18,7 +21,9 @@ import { ActionComponent } from './clients/action/action.component';
     HomeComponent,
     PagesComponent,
     ClientsComponent,
-    ActionComponent
+    ActionComponent,
+    ProductsComponent,
+    ActionProductsComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +31,10 @@ import { ActionComponent } from './clients/action/action.component';
     SharedModule,
     FormsModule,
     NgbPaginationModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxTinymceModule.forRoot({
+      baseURL: '../assets/js/tinymce/'
+    })
   ]
 })
 export class PagesModule { }

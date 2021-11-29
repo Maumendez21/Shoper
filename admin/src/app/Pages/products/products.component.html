@@ -1,0 +1,77 @@
+<div class="border-bottom mb-3">
+  <h1 class="mt-2 mt-md-4 mb-3 pt-2">Productos</h1>
+  <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+    <p class="text-muted">Este módulo lista los productos</p>
+    <p class="font-size-sm font-weight-medium pl-md-4"><a class="text-nowrap" [routerLink]="'/products/nuevo'">Registrar nuevo<i class="cxi-angle-right font-size-base align-middle ml-1"></i></a></p>
+  </div>
+</div>
+
+<div class="card box-shadow-sm">
+    <div class="card-header">
+        <h5 style="margin-bottom: 0px;">Filtro de productos</h5>
+    </div>
+    <div class="card-header">
+      <form class="form-inline">
+        <label class="sr-only" for="inline-form-input-username">Nombre</label>
+        <div class="input-group mr-sm-4">
+
+        <input class="form-control" (keyup)="getProducts(title.value)" #title name="titulo" type="text" id="inline-form-input-username" placeholder="Nombre del producto">
+        </div>
+      </form>
+    </div>
+    <div class="card-body">
+      <!-- Custom size border spinner -->
+      <div *ngIf="loading" class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+        <span class="visually-hidden"></span>
+      </div>
+      <div *ngIf="!loading" class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Titulo</th>
+              <th>Stock</th>
+              <th>Precio</th>
+              <th>Categoria</th>
+              <th>Ventas</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of products | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let i = index" >
+              <td>
+                <h6 style="padding-bottom: 0px;margin-bottom: 0px;">
+                  <!-- Square thumbnail -->
+                  <img style="width: 50px" [src]="urlImg + 'product_img/' + product.portada" class="img-thumbnail rounded-0" alt="Square image">
+                  {{product.titulo}}
+                </h6>
+              </td>
+              <td>{{product.stock}}</td>
+              <td>{{product.precio}}</td>
+              <td>{{product.categoria}}</td>
+              <td>{{product.nventas}}</td>
+              <td>
+                <div class="btn-group dropdown">
+                  <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Acciones
+                  </button>
+                  <div class="dropdown-menu">
+                    <a [routerLink]="'/products/' + product._id" class="dropdown-item">Editar</a>
+                    <a href="#" class="dropdown-item">Eliminar</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer">
+      <ngb-pagination 
+      [(page)]="page"
+      [pageSize]="pageSize"
+      [collectionSize]="products.length"
+    >
+      
+    </ngb-pagination>
+    </div>
+</div>    
