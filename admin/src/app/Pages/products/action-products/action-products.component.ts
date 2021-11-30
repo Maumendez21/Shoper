@@ -57,8 +57,6 @@ export class ActionProductsComponent implements OnInit {
     this.title = 'Editar';
     this.productoService.getProductById(id)
     .subscribe(({product}) => {
-      console.log(product);
-
       const {titulo, stock, precio, categoria, descripcion, especificaciones, portada } = product;
 
       this.productUpdate = product;
@@ -146,6 +144,9 @@ export class ActionProductsComponent implements OnInit {
     if (this.productUpdate) {
 
       console.log('actualizar');
+
+      console.log(this.productForm.value, this.fileTemp);
+      
       
       
     }else{
@@ -184,8 +185,6 @@ export class ActionProductsComponent implements OnInit {
       })
 
     }
-
-    console.log(this.productForm.value, this.fileTemp);
     
 
 
