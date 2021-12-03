@@ -7,6 +7,10 @@ import { ClientsComponent } from './clients/clients.component';
 import { ActionComponent } from './clients/action/action.component';
 import { ProductsComponent } from './products/products.component';
 import { ActionProductsComponent } from './products/action-products/action-products.component';
+import { InventaryComponent } from './products/inventary/inventary.component';
+import { CuponsComponent } from './cupons/cupons.component';
+import { ActionCuponsComponent } from './cupons/action-cupons/action-cupons.component';
+import { ConfigurationComponent } from './configuration/configuration.component';
 
 
 const routes: Routes = [
@@ -16,7 +20,6 @@ const routes: Routes = [
         canActivate: [AdminGuard],
         children: [
             { path: '', component: HomeComponent},
-            { path: 'clients', component: ClientsComponent },
         ]
     },
     {
@@ -36,8 +39,29 @@ const routes: Routes = [
         children: [
             { path: '', component: ProductsComponent},
             { path: ':id', component: ActionProductsComponent},
+            { path: 'inventary/:id', component: InventaryComponent},
         ]
-    }
+    },
+    {
+        path: 'cupons',
+        component: PagesComponent,
+        canActivate: [AdminGuard],
+        children: [
+            { path: '', component: CuponsComponent},
+            { path: ':id', component: ActionCuponsComponent},
+            // { path: 'inventary/:id', component: InventaryComponent},
+        ]
+    },
+    {
+        path: 'configurations',
+        component: PagesComponent,
+        canActivate: [AdminGuard],
+        children: [
+            { path: '', component: ConfigurationComponent},
+            // { path: ':id', component: ActionCuponsComponent},
+            // { path: 'inventary/:id', component: InventaryComponent},
+        ]
+    },
 
 ];
 

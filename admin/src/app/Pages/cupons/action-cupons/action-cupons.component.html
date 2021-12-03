@@ -1,0 +1,72 @@
+<!-- Page title-->
+<div class="border-bottom ">
+<h1 class="mt-2 mt-md-4 pt-2">{{title}} Cupon</h1>
+<div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+    <p class="text-muted">{{title}} un cupón.</p>
+    
+</div>
+</div>
+
+<form 
+    [formGroup]="cuponForm"
+    (ngSubmit)="actionCupon()"
+>
+
+    <div class="card box-shadow-sm">
+        <div class="card-header">
+            <h5 style="margin-bottom: 0px;">{{title}} cupón</h5>
+        </div>
+        <div class="card-body">
+            
+            <div class="row">
+                <div class="col-md-6 col-lg-3 form-group">
+                    <label for="validationCustom01" class="form-label">Codigo</label>
+                    <input 
+                        class="form-control" 
+                        type="text" 
+                        formControlName="codigo"
+                        placeholder="Codigo">
+                </div>
+                
+                
+        
+                <div class="col-md-6 col-lg-3">
+                    <label for="validationCustom01" class="form-label">Tipo</label>
+                    <select class="form-control custom-select" formControlName="tipo" for="" >
+                        <option value="0" disabled selected > -- Selecciona el tipo -- </option> 
+                        <option value="procentaje">Porcentaje</option>
+                        <option value="valorFijo">Valor Fijo</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 col-lg-3 form-group">
+                    <label for="validationCustom01" class="form-label">Valor</label>
+                    <input 
+                        class="form-control" 
+                        type="number" 
+                        formControlName="valor"
+                        placeholder="Valor del cupón">
+                </div>
+
+                <div class="col-md-6 col-lg-3 form-group">
+                    <label for="validationCustom01" class="form-label">Cantidad</label>
+                    <input 
+                        class="form-control" 
+                        type="number" 
+                        formControlName="limite"
+                        placeholder="Cantidad de cupones">
+                </div>
+            </div>
+            
+        </div>
+        <div class="card-footer">
+            <button *ngIf="!loading" class="btn btn-primary mr-3" tipe="submit">Guardar</button>
+             <!-- Button with border spinner -->
+             <button *ngIf="loading" type="button" class="btn btn-primary btn-icon  mr-3" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            </button>
+            <button class="btn btn-warning" [routerLink]="'/cupons'">Regresar</button>
+        </div>
+    </div>    
+</form>
+

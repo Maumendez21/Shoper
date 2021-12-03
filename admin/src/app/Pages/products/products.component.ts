@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/Services/product.service';
 import { environment } from 'src/environments/environment';
+import Swal from 'sweetalert2';
 declare var iziToast: any;
 const base_url = environment.API_URL;
 
@@ -39,6 +40,27 @@ export class ProductsComponent implements OnInit {
         message: '' + error.message
       })
       return;
+    })
+  }
+
+  deleteProduct(producto: any){
+    Swal.fire({
+      title: `Eliminar a ${producto.titulo}?`,
+      text: "Esta acción no se puede revertir!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, Eliminar!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.productService.deleteProductAdmin(producto._id).subscribe(({message}) =>{
+          this.getProducts("all");
+          Swal.fire(
+            'Elimiando!',
+            '' + message,
+            'success'
+          )
+        })
+      }
     })
   }
 

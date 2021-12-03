@@ -9,6 +9,8 @@ var app = express();
 var cliente_route = require('./Routes/cliente.routes');
 var admin_route = require('./Routes/admin.routes');
 var producto_route = require('./Routes/producto.routes');
+var cupon_route = require('./Routes/cupon.routes');
+var config_route = require('./Routes/config.routes');
 
 app.use(cors());
 
@@ -42,5 +44,7 @@ app.use((req,res,next)=>{
 app.use('/api', cliente_route);
 app.use('/api', admin_route);
 app.use('/api', producto_route);
+app.use('/api', cupon_route);
+app.use('/api', config_route);
 
 module.exports = app;

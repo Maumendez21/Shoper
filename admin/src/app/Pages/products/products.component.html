@@ -56,7 +56,8 @@
                   </button>
                   <div class="dropdown-menu">
                     <a [routerLink]="'/products/' + product._id" class="dropdown-item">Editar</a>
-                    <a href="#" class="dropdown-item">Eliminar</a>
+                    <a (click)="deleteProduct(product)" style="cursor: pointer" class="dropdown-item">Eliminar</a>
+                    <a [routerLink]="'/products/inventary/' + product._id" class="dropdown-item">Inventario</a>
                   </div>
                 </div>
               </td>

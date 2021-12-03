@@ -95,7 +95,11 @@
                     
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary mr-3">Guardar</button>
+                    <button type="submit" *ngIf="!loading" class="btn btn-primary mr-3">Guardar</button>
+                    <!-- Button with border spinner -->
+                    <button *ngIf="loading" type="button" class="btn btn-primary btn-icon  mr-3" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </button>
                     <button [routerLink]="'/products'" class="btn btn-warning">Regresar</button>
                 </div>
             </form>

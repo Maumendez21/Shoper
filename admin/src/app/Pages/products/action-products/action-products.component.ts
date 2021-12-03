@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from '../../../Services/product.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 declare var iziToast: any;
 declare var jQuery: any;
 declare var $: any;
@@ -19,6 +19,7 @@ export class ActionProductsComponent implements OnInit {
     private fb: FormBuilder,
     private productoService: ProductService,
     private activatedRoute: ActivatedRoute,
+    private router: Router
   ) { 
     this.config = {
       height: 500,
@@ -28,6 +29,7 @@ export class ActionProductsComponent implements OnInit {
   public fileTemp!: File;
   public imgSelected: any | ArrayBuffer = '/assets/img/01.jpg';
   public title: string = "";
+
   public loadingProduct: boolean = true;
   public loading: boolean = false;
 
@@ -66,6 +68,7 @@ export class ActionProductsComponent implements OnInit {
       this.productForm.setValue({titulo, stock, precio, categoria, descripcion, especificaciones });
       this.loadingProduct = false; 
     }, ({error}) => {
+      this.router.navigateByUrl('/products');
       console.log(error.message);
       
     })
@@ -127,8 +130,6 @@ export class ActionProductsComponent implements OnInit {
 
   actionProduct(){
 
-
-
     if (!this.productForm.valid) {
       iziToast.show({
         title: 'Error',
@@ -141,14 +142,39 @@ export class ActionProductsComponent implements OnInit {
     }
 
 
+
+
     if (this.productUpdate) {
 
-      console.log('actualizar');
+      this.loading = true;
 
-      console.log(this.productForm.value, this.fileTemp);
-      
-      
-      
+      this.productoService.actualizarProductAdmin(this.productForm.value, this.fileTemp, this.productUpdate._id)
+      .subscribe(({message}) => {
+        iziToast.show({
+          title: 'OK',
+          titleColor: '#1DC74C',
+          class: 'text-success',
+          position: 'topRight',
+          message: '' + message
+        })
+        
+        setTimeout(() => {
+          this.loading = false;
+          this.router.navigateByUrl('/products');
+          
+        }, 1000);
+      }, ({error}) => {
+        this.loading = false;
+        iziToast.show({
+          title: 'Error',
+          titleColor: '#FF0000',
+          class: 'text-danger',
+          position: 'topRight',
+          message: '' + error
+        })
+        return;
+      })
+    
     }else{
 
       if (this.fileTemp === undefined) {
@@ -161,7 +187,7 @@ export class ActionProductsComponent implements OnInit {
         })
         return;
       }
-      
+      this.loading = true;
       this.productoService.registerProductAdmin(this.productForm.value, this.fileTemp)
       .subscribe(result => {
         iziToast.show({
@@ -174,7 +200,9 @@ export class ActionProductsComponent implements OnInit {
         $('#iPortada').text('Selecciona una imagen');
         this.imgSelected = '/assets/img/01.jpg';
         this.productForm.reset();
+        this.loading = false;
       },({ error})=> {
+        this.loading = false;
         iziToast.show({
           title: 'Error',
           titleColor: '#FF0000',

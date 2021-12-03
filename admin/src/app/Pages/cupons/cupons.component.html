@@ -1,0 +1,71 @@
+    <!-- Page title-->
+    <div class="border-bottom mb-3">
+    <h1 class="mt-2 mt-md-4">Cupones</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+        <p class="text-muted">Este módulo lista todos los cupones de la tienda.</p>
+        <p class="font-size-sm font-weight-medium pl-md-4"><a class="text-nowrap" [routerLink]="'/cupons/nuevo'">Crear cupón<i class="cxi-angle-right font-size-base align-middle ml-1"></i></a></p>
+    </div>
+    </div>
+
+    <div class="card box-shadow-sm">
+    <div class="card-header">
+        <h5 style="margin-bottom: 0px;">Filtra por código de cupón</h5>
+    </div>
+    <div class="card-header">
+        <form class="form-inline">
+            <label class="sr-only" for="inline-form-input-name">Codigo</label>
+            <input 
+                (keyup)="getCupons(codigo.value)"
+                #codigo
+                name="codigo"
+                class="form-control mr-sm-4" 
+                type="text" 
+                id="inline-form-input-name" 
+                placeholder="Codigo de cupón">
+        </form>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Codigo</th>
+                    <th>Tipo</th>
+                    <th>Valor</th>
+                    <th>Limite</th>
+                    <th>Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let cupon of cupons | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let i = index" >
+                    
+                    <td>{{cupon.codigo}}</td>
+                    <td>{{cupon.tipo}}</td>
+                    <td>{{cupon.valor}}</td>
+                    <td>{{cupon.limite}}</td>
+                    <td>
+                    <div class="btn-group dropdown">
+                        <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Opciones
+                        </button>
+                        <div class="dropdown-menu">
+                            <a [routerLink]="'/cupons/' + cupon._id" class="dropdown-item">Editar</a>
+                            <a (click)="deleteProduct(cupon)" style="cursor: pointer"class="dropdown-item">Eliminar</a>
+                        </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer">
+        <ngb-pagination 
+      [(page)]="page"
+      [pageSize]="pageSize"
+      [collectionSize]="cupons.length"
+    >
+      
+    </ngb-pagination>
+    </div>
+</div>    

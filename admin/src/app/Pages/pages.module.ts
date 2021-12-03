@@ -11,6 +11,10 @@ import { ActionComponent } from './clients/action/action.component';
 import { ProductsComponent } from './products/products.component';
 import { ActionProductsComponent } from './products/action-products/action-products.component';
 import { NgxTinymceModule } from 'ngx-tinymce';
+import { InventaryComponent } from './products/inventary/inventary.component';
+import { CuponsComponent } from './cupons/cupons.component';
+import { ActionCuponsComponent } from './cupons/action-cupons/action-cupons.component';
+import { ConfigurationComponent } from './configuration/configuration.component';
 
 
 
@@ -23,7 +27,11 @@ import { NgxTinymceModule } from 'ngx-tinymce';
     ClientsComponent,
     ActionComponent,
     ProductsComponent,
-    ActionProductsComponent
+    ActionProductsComponent,
+    InventaryComponent,
+    CuponsComponent,
+    ActionCuponsComponent,
+    ConfigurationComponent
   ],
   imports: [
     CommonModule,

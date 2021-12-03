@@ -8,15 +8,18 @@ var path = multiparty({uploadDir: './Uploads/products'});
 
 var api = express.Router();
 
+// Producto
 api.post('/registro_producto', [validateJWT, path] , productoController.registro_producto_admin);
 api.get('/product_list/:filter?',  [validateJWT] , productoController.productos_list);
 api.get('/product/:id',  [validateJWT] , productoController.getProductById);
 api.get('/product_img/:id',  productoController.obtener_Portada);
-// api.post('/registro_cliente_admin',  [validateJWT] , clienteController.regsitro_cliente_admin);
-// api.post('/login_cliente', clienteController.login_cliente);
-// api.get('/client_list/:tipo?/:filter?',  [validateJWT] , clienteController.cliente_list);
-// api.get('/client/:id',  [validateJWT] , clienteController.getClienteById);
-// api.put('/update_client/:id',  [validateJWT] , clienteController.ActualizarClienteAdmin);
-// api.delete('/delete_client/:id',  [validateJWT] , clienteController.BorrarClienteAdmin);
-// ,  [validateJWT]
+api.put('/actualizar_producto/:id', [validateJWT, path] , productoController.actualizar_producto_admin);
+api.delete('/eliminar_producto/:id', [validateJWT] , productoController.BorrarProductoAdmin);
+
+// Inventario
+api.get('/inventario/:id',  [validateJWT] , productoController.inventarios_list);
+api.delete('/eliminar_inventario/:id', [validateJWT] , productoController.eliminar_inventario_producto);
+api.post('/add_inventario', [validateJWT] , productoController.add_inventary_producto);
+
+
 module.exports = api;
