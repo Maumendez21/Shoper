@@ -9,6 +9,7 @@ var path = multiparty({uploadDir: './Uploads/configuraciones'});
 var api = express.Router();
 
 api.put('/update_config',  [validateJWT, path] , configController.updateConfigAdmin);
+// api.post('/update_config',   configController.updateConfigAdmin);
 api.get('/get_config',  [validateJWT] , configController.getConfigById);
 // api.post('/registro_cupon',  [validateJWT] , cuponController.resitro_cupon);
 // api.put('/update_cupon/:id',  [validateJWT] , cuponController.actualizar_cupon_admin);

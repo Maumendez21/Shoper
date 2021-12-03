@@ -29,5 +29,23 @@ export class ConfigService {
     return this.http.get(url, this.headers);
   }
 
+  updateConfig(data: any, file: File): Observable<any>{
+
+    if (file!==undefined) {
+      
+      const fd = new FormData();
+      fd.append('titulo', data.titulo);
+      fd.append('categorias', data.categorias);
+      fd.append('serie', data.serie);
+      fd.append('correolativo', data.correolativo);
+      fd.append('logo', file);
+      const url = base_url + `/update_config`;
+      return this.http.put( url, fd, this.headers );
+    }
+    
+    const url = base_url + `/update_config`;
+    return this.http.put(url, data, this.headers );
+  }
+
 
 }
