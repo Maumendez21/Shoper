@@ -12,6 +12,7 @@ import { CuponsComponent } from './cupons/cupons.component';
 import { ActionCuponsComponent } from './cupons/action-cupons/action-cupons.component';
 import { ConfigurationComponent } from './configuration/configuration.component';
 import { VariedadComponent } from './products/variedad/variedad.component';
+import { GaleryAddComponent } from './products/galery-add/galery-add.component';
 
 
 const routes: Routes = [
@@ -42,6 +43,7 @@ const routes: Routes = [
             { path: ':id', component: ActionProductsComponent},
             { path: 'inventary/:id', component: InventaryComponent},
             { path: 'variedad/:id', component: VariedadComponent},
+            { path: 'galery/:id', component: GaleryAddComponent},
         ]
     },
     {

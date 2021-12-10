@@ -16,6 +16,7 @@ import { CuponsComponent } from './cupons/cupons.component';
 import { ActionCuponsComponent } from './cupons/action-cupons/action-cupons.component';
 import { ConfigurationComponent } from './configuration/configuration.component';
 import { VariedadComponent } from './products/variedad/variedad.component';
+import { GaleryAddComponent } from './products/galery-add/galery-add.component';
 
 
 
@@ -33,7 +34,8 @@ import { VariedadComponent } from './products/variedad/variedad.component';
     CuponsComponent,
     ActionCuponsComponent,
     ConfigurationComponent,
-    VariedadComponent
+    VariedadComponent,
+    GaleryAddComponent
   ],
   imports: [
     CommonModule,

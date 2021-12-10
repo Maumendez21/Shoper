@@ -246,6 +246,67 @@ const actualizar_producto_variedad = async (req, res) => {
     return res.status(200).send({ok: true, message: 'Variedades Actualizadas', data: reg});
 
 }
+const actualizar_producto_galeria = async (req, res) => {
+
+    if (!req.uid || req.role !== 'ADMIN') {
+        return res.status(500).send({
+            ok: false,
+            message: 'Error, no tienes permisos.'
+        }); 
+    }
+
+    const data = {...req.body};
+    const id = req.params.id;
+
+    var img_path = req.files.img.path;
+    var name = img_path.split('\\');
+    var img_name = name[2];
+
+
+
+    let reg = await producto.findByIdAndUpdate({_id: id},  {$push: {galeria: {
+        img: img_name,
+        _id: data._id
+    }}});
+
+    
+    
+    return res.status(200).send({ok: true, message: 'Galeria Actualizada', data: reg});
+
+}
+const eliminar_producto_galeria = async (req, res) => {
+
+    if (!req.uid || req.role !== 'ADMIN') {
+        return res.status(500).send({
+            ok: false,
+            message: 'Error, no tienes permisos.'
+        }); 
+    }
+
+    const data = {...req.body};
+    const id = req.params.id;
+
+
+
+    let reg = await producto.findByIdAndUpdate({_id: id},  {$pull: {galeria: {
+        _id: data._id
+    }}});
+
+    fs.stat('./uploads/products/' + data.img, (err, stats) => {
+            
+        if (!err) {
+            fs.unlink('./uploads/products/' + data.img, (err, stats) => {
+                if (err) throw err;
+            });
+        }
+    })
+
+
+    
+    
+    return res.status(200).send({ok: true, message: 'Galeria Actualizada', data: reg});
+
+}
 
 module.exports = {
     registro_producto_admin,
@@ -257,5 +318,7 @@ module.exports = {
     inventarios_list,
     eliminar_inventario_producto,
     add_inventary_producto,
-    actualizar_producto_variedad
+    actualizar_producto_variedad,
+    actualizar_producto_galeria,
+    eliminar_producto_galeria
 }

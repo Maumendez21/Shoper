@@ -1,0 +1,89 @@
+<!-- Page title-->
+<div class="border-bottom  mb-2">
+    <h1 class="mt-2 mt-md-4 pt-2">Galeria de {{producto}}</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+      <p class="text-muted">Este módulo se establecen las variedades del producto.</p>
+
+    </div>
+</div>
+
+
+<div class="card box-shadow-sm">
+    <div class="card-header">
+        <h5 style="margin-bottom: 0px;">Galeria de {{producto}}</h5>
+    </div>
+
+    <div class="card-body">
+        <div style="max-width: 48rem;">
+
+
+            <div class="form-group row align-items-center">
+                <div class="col-md-8">
+                    <!-- <label for=""> Titulo de la variedad</label>
+                    <div class="input-group mb-3">
+                        <input class="form-control" type="text" [(ngModel)]="titulo_variedad" placeholder="Titulo variedad">
+                    </div> -->
+<!--         
+                    <div class="input-group">
+                        <input  (change)="fileChange($event)" class="custom-file-input" type="file" >
+                    </div> -->
+                    
+                    <div class="custom-file">
+                        <input class="custom-file-input" (change)="fileChange($event)" type="file" id="file-input">
+                        <label class="custom-file-label" id="iPortada" for="file-input" style="white-space: nowrap; overflow: hidden">Seleccionar imagen</label>
+                    </div>
+                    <button class="btn btn-primary btn-sm m-" (click)="addImg()" type="button">Subir</button>
+        
+                </div>
+                <div class="col-md-12">
+                    <!-- <a (click)="crearVariedad()" style="cursor: pointer;" class="mb-5 mt-5">Agregar</a> -->
+
+
+                    <div class="table-responsive mt-3">
+                        <table class="table table-sm">
+                            <thead >
+                                <tr>
+                                <th>Foto</th>
+                                <th>Eliminar</th>
+                                </tr>
+                            </thead>
+
+                            <ng-container *ngIf="galeria.length === 0">
+                                <tbody>
+                                    <tr colspan="2" class="text-center">
+                                        <span  class="text-muted">No hay galeria.</span>
+                                    </tr>
+                                </tbody>
+                            </ng-container>
+                            <ng-container *ngIf="galeria.length !== 0">
+                                <tbody>
+                                    <tr *ngFor="let img of galeria; let i = index;" >
+                                        <td>
+                                            <img style="width: 100px" [src]="urlImg + 'product_img/' + img.img" class="img-thumbnail rounded-0" alt="Square image">
+                                        </td>
+                                        <td>
+                                            <a class="text-danger" (click)="eliminarFoto(img)" style="cursor: pointer;">Eliminar</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </ng-container>
+                            
+                        
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+
+            
+        </div>
+        
+    </div>
+    <div class="card-footer">
+        <!-- <button *ngIf="loading" type="button" class="btn btn-primary btn-icon  mr-3" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </button>
+        <button *ngIf="!loading" (click)="updateVariedad()" class="btn btn-primary mr-3">Guardar cambios</button> -->
+        <button   class="btn btn-danger mr-3" [routerLink]="'/products'">Regresar</button>
+    </div>
+</div> 

@@ -15,6 +15,10 @@ api.get('/product/:id',  [validateJWT] , productoController.getProductById);
 api.get('/product_img/:id',  productoController.obtener_Portada);
 api.put('/actualizar_producto/:id', [validateJWT, path] , productoController.actualizar_producto_admin);
 api.put('/actualizar_variedad/:id', [validateJWT] , productoController.actualizar_producto_variedad);
+api.put('/actualizar_galeria/:id', [validateJWT,  path] , productoController.actualizar_producto_galeria);
+api.put('/eliminar_galeria/:id', [validateJWT] , productoController.eliminar_producto_galeria);
+
+
 api.delete('/eliminar_producto/:id', [validateJWT] , productoController.BorrarProductoAdmin);
 
 // Inventario

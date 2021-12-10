@@ -25,6 +25,23 @@ export class ProductService {
     }
   }
 
+  actualizarGaaleria(data: any, id: string): Observable<any>{
+
+    const fd = new FormData();
+    fd.append('_id', data._id);
+    fd.append('img', data.img);
+
+    const url = base_url + `actualizar_galeria/${id}`;
+    return this.http.put( url, fd, this.headers );
+  }
+
+  eliminarGaaleria(data: any, id: string): Observable<any>{
+
+    const url = base_url + `eliminar_galeria/${id}`;
+    return this.http.put( url, data, this.headers );
+  }
+
+  
   registerProductAdmin(data: any, file: File): Observable<any>{
 
     const fd = new FormData();
