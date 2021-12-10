@@ -62,6 +62,11 @@ export class ProductService {
     return this.http.put(url, data, this.headers );
 
   }
+  actualizarProductVariedadAdmin(data: any, id: string): Observable<any>{
+    const url = base_url + `actualizar_variedad/${id}`;
+    return this.http.put(url, data, this.headers );
+
+  }
 
   getProducts(filter: string): Observable<any>{
     const url = base_url + `product_list/${filter}`;

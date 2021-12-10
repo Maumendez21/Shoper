@@ -1,6 +1,9 @@
 'use strict'
 var Config = require('../Models/config');
 
+var fs = require('fs');
+var path = require('path');
+
 const updateConfigAdmin = async (req, res) => {
 
     if (!req.uid || req.role !== 'ADMIN') {
@@ -28,20 +31,28 @@ const updateConfigAdmin = async (req, res) => {
         var img_path = req.files.logo.path;
         var name = img_path.split('\\');
         data.logo = name[2];
+        data.categorias = JSON.parse(data.categorias)
         
     }
-    console.log(data);
-    // "61aa8d13a84b755837df94f2" Laboral
-    // "61aa3f82ea825f9d1e049b7b" Personal
 
-    let configPut  = await Config.findByIdAndUpdate({_id: "61aa8d13a84b755837df94f2"}, data);
+    // let data1 = {
+
+    // }
+
+
+    
+    // "61aa8d13a84b755837df94f2" Laboral
+    // "61b10015db6d4f2e0ca52330" Personal
+
+    let configPut  = await Config.findByIdAndUpdate({_id: "61b10015db6d4f2e0ca52330"}, data);
+    console.log(configPut);
 
 
     if (req.files != undefined) {
-        fs.stat('./uploads/configuraciones/' + configPut.logo, (err, stats) => {
+        fs.stat('./Uploads/configuraciones/' + configPut.logo, (err, stats) => {
             
             if (!err) {
-                fs.unlink('./uploads/configuraciones/' + configPut.logo, (err, stats) => {
+                fs.unlink('./Uploads/configuraciones/' + configPut.logo, (err, stats) => {
                     if (err) throw err;
                 });
             }
@@ -63,7 +74,44 @@ const getConfigById = async (req, res) => {
 
     try {
         
-        const _config = await Config.findById("61aa8d13a84b755837df94f2");
+        const _config = await Config.findById("61b10015db6d4f2e0ca52330");
+
+        res.status(200).send({
+            ok: true,
+            _config
+        })
+        
+    } catch (error) {
+
+        res.status(500).send({
+            ok: false,
+            message: error.message + ''
+        });
+    }
+
+}
+
+const obtener_logo = async (req, res) => {
+    var img = req.params.id;
+    fs.stat('./uploads/configuraciones/' + img, (err, stats) => {
+
+        if (err) {
+            let _path1 = './uploads/default.jpg';
+            res.status(404).sendFile(path.resolve(_path1));
+            return;
+        }
+        
+        let _path = './uploads/configuraciones/' + img;
+        res.status(200).sendFile(path.resolve(_path));
+    })
+}
+
+const getCategos = async (req, res) => {
+
+
+    try {
+        
+        const _config = await Config.findById("61b10015db6d4f2e0ca52330");
 
         res.status(200).send({
             ok: true,
@@ -81,7 +129,13 @@ const getConfigById = async (req, res) => {
 }
 
 
+
+
+
+
 module.exports = {
     updateConfigAdmin,
-    getConfigById
+    getConfigById,
+    obtener_logo,
+    getCategos
 }

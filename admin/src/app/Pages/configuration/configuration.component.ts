@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ConfigService } from 'src/app/Services/config.service';
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
 declare var iziToast: any;
+declare var jQuery: any;
+declare var $: any;
 // uuidv4(); 
 
 @Component({
@@ -15,7 +18,8 @@ export class ConfigurationComponent implements OnInit {
 
   constructor(
     private configService: ConfigService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) { }
 
   public config: any = {};
@@ -43,9 +47,11 @@ export class ConfigurationComponent implements OnInit {
   getConfig(){
     this.configService.getConfig()
     .subscribe(({_config}) => {
-      const { titulo, serie, correolativo } = _config;
-      console.log(_config.categorias);
+      const { titulo, serie, correolativo, logo } = _config;
 
+      this.imgSelected = this.configService.getImg(logo);
+      // $('.cs-file-drop-preview').html("<img src="+this.imgSelected+">");
+      
 
       this.categorias = _config.categorias;
       this.config = _config;
@@ -53,6 +59,7 @@ export class ConfigurationComponent implements OnInit {
       
     })
   }
+  public loading: boolean = false;
 
   updateConfig(){
     if (!this.configForm.valid) {
@@ -72,10 +79,35 @@ export class ConfigurationComponent implements OnInit {
       categorias: this.categorias
     }
 
+    this.loading = true;
+    
+    
     this.configService.updateConfig(data, this.file)
-    .subscribe(res =>{
-      console.log(res);
+    .subscribe(({message}) =>{
+      iziToast.show({
+        title: 'OK',
+        titleColor: '#1DC74C',
+        class: 'text-success',
+        position: 'topRight',
+        message: '' + message
+      })
       
+      setTimeout(() => {
+        this.loading = false;
+        // this.router.navigateByUrl('/products');
+        
+      }, 1000);
+      
+    }, ({error}) => {
+      this.loading = false;
+        iziToast.show({
+          title: 'Error',
+          titleColor: '#FF0000',
+          class: 'text-danger',
+          position: 'topRight',
+          message: '' + error
+        })
+        return;
     })
 
 
@@ -101,10 +133,15 @@ export class ConfigurationComponent implements OnInit {
       icono: this.icono,
       _id: uuidv4()
     })
+    
     this.titulo = '', this.icono = ''
     // console.log(this.categorias);
     
     
+  }
+
+  elimarcatego(id: any){
+    this.categorias.splice(id, 1);
   }
 
   fileChange(event: any):void{
@@ -152,12 +189,19 @@ export class ConfigurationComponent implements OnInit {
 
     const reader = new FileReader();
     reader.onload = e => this.imgSelected = reader.result;
+    $('.cs-file-drop-icon').addClass('cs-file-drop-preview img-thumbnail rounded');
+    $('.cs-file-drop-icon').addClass('cs-file-drop-icon cxi-upload');
     reader.readAsDataURL(file);
 
     // $('#iPortada').text(file.name);
 
     this.file = file;
     
+    
+  }
+
+  ngDoCheck(): void {
+    $('.cs-file-drop-preview').html("<img src="+this.imgSelected+">");
   }
 
 

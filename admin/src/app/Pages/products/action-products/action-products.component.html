@@ -51,9 +51,7 @@
                                     <label for="">Categoría</label>
                                     <select formControlName="categoria" class="form-control custom-select" id="select-input">
                                     <option value="0" selected disabled>Seleccionar</option>
-                                    <option value="Categoria 1">Categoria 1</option>
-                                    <option value="Categoria 2">Categoria 2</option>
-                                    <option value="Categoria 3">Categoria 3</option>
+                                    <option *ngFor="let cat of categorias"  [value]="cat.titulo">{{cat.titulo}}</option>
                                     </select>
                                 </div>
         

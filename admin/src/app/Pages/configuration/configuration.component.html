@@ -73,6 +73,7 @@
                                 <tr>
                                 <th>Categoria</th>
                                 <th>Icono</th>
+                                <th>Eliminar</th>
                                 </tr>
                             </thead>
 
@@ -87,7 +88,14 @@
                                 <tbody>
                                     <tr *ngFor="let categoria of categorias" >
                                         <td>{{categoria.titulo}}</td>
-                                        <td>{{categoria.icono}}</td>
+                                        <td>
+                                            <i class="{{categoria.icono}}">
+
+                                            </i>
+                                        </td>
+                                        <td>
+                                            <a class="text-danger" (click)="elimarcatego(categoria._id)" style="cursor: pointer;">Eliminar</a>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </ng-container>
@@ -103,7 +111,10 @@
                 <div class="col-md-9">
                     
                     <div class="cs-file-drop-area">
-                        <div class="cs-file-drop-icon cxi-upload"></div>
+                        <!-- <div class="cs-file-drop-icon cxi-upload"></div> -->
+                        <div class="cs-file-drop-preview img-thumbnail rounded">
+                            <img [src]="imgSelected" alt="">
+                        </div>
                         <span class="cs-file-drop-message">Seleccione su logo</span>
                         <!-- <img [src]="imgSelected" class="img-thumbnail" alt="Rounded image"> -->
                         <input type="file" (change)="fileChange($event)" class="cs-file-drop-input">
@@ -118,6 +129,10 @@
         
     </div>
     <div class="card-footer">
-        <button (click)="updateConfig()" class="btn btn-primary mr-3">Guardar cambios</button>
+        <!-- Button with border spinner -->
+        <button *ngIf="loading" type="button" class="btn btn-primary btn-icon  mr-3" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </button>
+        <button *ngIf="!loading" (click)="updateConfig()" class="btn btn-primary mr-3">Guardar cambios</button>
     </div>
 </div> 

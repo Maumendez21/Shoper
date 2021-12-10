@@ -24,17 +24,17 @@ export class InventaryComponent implements OnInit {
 
   public inventarios: Array<any> = [];
   public inventario: any = {};
-
-  ngOnInit(): void {
-    this.activatedRoute.params.subscribe(({id}) => {this.cargarProducto(id)})
-  }
-
   getInventario(id: string){
     this.productoService.getInventarioById(id)
     .subscribe(({data}) => {
       this.inventarios = data;
     })
   }
+
+  ngOnInit(): void {
+    this.activatedRoute.params.subscribe(({id}) => {this.cargarProducto(id)})
+  }
+
 
   cargarProducto(id: string){
 

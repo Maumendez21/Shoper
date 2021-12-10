@@ -29,6 +29,7 @@ export class ProductsComponent implements OnInit {
 
   getProducts(parameter: string){
     this.productService.getProducts(parameter).subscribe(({data}) => {
+      
       this.products = data;
       this.loading = false;
     }, ({error}) => {

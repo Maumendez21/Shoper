@@ -11,6 +11,7 @@ import { InventaryComponent } from './products/inventary/inventary.component';
 import { CuponsComponent } from './cupons/cupons.component';
 import { ActionCuponsComponent } from './cupons/action-cupons/action-cupons.component';
 import { ConfigurationComponent } from './configuration/configuration.component';
+import { VariedadComponent } from './products/variedad/variedad.component';
 
 
 const routes: Routes = [
@@ -40,6 +41,7 @@ const routes: Routes = [
             { path: '', component: ProductsComponent},
             { path: ':id', component: ActionProductsComponent},
             { path: 'inventary/:id', component: InventaryComponent},
+            { path: 'variedad/:id', component: VariedadComponent},
         ]
     },
     {

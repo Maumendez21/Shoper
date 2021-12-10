@@ -14,6 +14,7 @@ api.get('/product_list/:filter?',  [validateJWT] , productoController.productos_
 api.get('/product/:id',  [validateJWT] , productoController.getProductById);
 api.get('/product_img/:id',  productoController.obtener_Portada);
 api.put('/actualizar_producto/:id', [validateJWT, path] , productoController.actualizar_producto_admin);
+api.put('/actualizar_variedad/:id', [validateJWT] , productoController.actualizar_producto_variedad);
 api.delete('/eliminar_producto/:id', [validateJWT] , productoController.BorrarProductoAdmin);
 
 // Inventario

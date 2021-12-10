@@ -15,6 +15,7 @@ import { InventaryComponent } from './products/inventary/inventary.component';
 import { CuponsComponent } from './cupons/cupons.component';
 import { ActionCuponsComponent } from './cupons/action-cupons/action-cupons.component';
 import { ConfigurationComponent } from './configuration/configuration.component';
+import { VariedadComponent } from './products/variedad/variedad.component';
 
 
 
@@ -31,7 +32,8 @@ import { ConfigurationComponent } from './configuration/configuration.component'
     InventaryComponent,
     CuponsComponent,
     ActionCuponsComponent,
-    ConfigurationComponent
+    ConfigurationComponent,
+    VariedadComponent
   ],
   imports: [
     CommonModule,

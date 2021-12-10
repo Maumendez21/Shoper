@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from '../../../Services/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ConfigService } from 'src/app/Services/config.service';
 declare var iziToast: any;
 declare var jQuery: any;
 declare var $: any;
@@ -19,7 +20,8 @@ export class ActionProductsComponent implements OnInit {
     private fb: FormBuilder,
     private productoService: ProductService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private configService: ConfigService
   ) { 
     this.config = {
       height: 500,
@@ -35,18 +37,38 @@ export class ActionProductsComponent implements OnInit {
 
   public productUpdate: any;
 
+  public config_global: any = {};
+
   public productForm: FormGroup = this.fb.group({
     titulo: ['', Validators.required],
     stock: [0, Validators.required],
     precio: [0, Validators.required],
-    categoria: ['', Validators.required],
+    categoria: [0, Validators.required],
     descripcion: ['', Validators.required],
     especificaciones: ['', Validators.required]
 
   })
+
+  public categorias: any[] = [];
   
   ngOnInit(): void {
+    this.getCategorias();
     this.activatedRoute.params.subscribe(({id}) => {this.cargarProducto(id)})
+  }
+  getCategorias(){
+    this.configService.getCat()
+    .subscribe(({_config}) => {
+      // console.log(_config.categorias);
+      this.categorias =  _config.categorias;
+      // this.productForm.setValue()
+    })
+
+
+    this.productForm.get('categoria')
+    ?.valueChanges.subscribe(id => {
+      // this.categorias = 
+    })
+
   }
 
   cargarProducto(id: string){
@@ -59,13 +81,13 @@ export class ActionProductsComponent implements OnInit {
     this.title = 'Editar';
     this.productoService.getProductById(id)
     .subscribe(({product}) => {
-      const {titulo, stock, precio, categoria, descripcion, especificaciones, portada } = product;
+      const {titulo, stock, precio, categoria: _titulo, descripcion, especificaciones, portada } = product;
 
       this.productUpdate = product;
 
       this.imgSelected = this.productoService.getImg(portada);
       
-      this.productForm.setValue({titulo, stock, precio, categoria, descripcion, especificaciones });
+      this.productForm.setValue({titulo, stock, precio, categoria: _titulo, descripcion, especificaciones });
       this.loadingProduct = false; 
     }, ({error}) => {
       this.router.navigateByUrl('/products');
@@ -120,6 +142,7 @@ export class ActionProductsComponent implements OnInit {
 
     const reader = new FileReader();
     reader.onload = e => this.imgSelected = reader.result;
+    
     reader.readAsDataURL(file);
 
     $('#iPortada').text(file.name);
@@ -127,6 +150,8 @@ export class ActionProductsComponent implements OnInit {
     this.fileTemp = file;
     
   }
+
+  
 
   actionProduct(){
 
@@ -142,6 +167,8 @@ export class ActionProductsComponent implements OnInit {
     }
 
 
+    console.log(this.productForm.value);
+    
 
 
     if (this.productUpdate) {

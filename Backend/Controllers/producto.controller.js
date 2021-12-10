@@ -226,6 +226,27 @@ const BorrarProductoAdmin = async (req, res) => {
     
 }
 
+const actualizar_producto_variedad = async (req, res) => {
+
+    if (!req.uid || req.role !== 'ADMIN') {
+        return res.status(500).send({
+            ok: false,
+            message: 'Error, no tienes permisos.'
+        }); 
+    }
+
+    const data = {...req.body};
+    const id = req.params.id;
+
+
+    let reg = await producto.findByIdAndUpdate({_id: id},  data);
+
+    
+    
+    return res.status(200).send({ok: true, message: 'Variedades Actualizadas', data: reg});
+
+}
+
 module.exports = {
     registro_producto_admin,
     productos_list,
@@ -235,5 +256,6 @@ module.exports = {
     BorrarProductoAdmin,
     inventarios_list,
     eliminar_inventario_producto,
-    add_inventary_producto
+    add_inventary_producto,
+    actualizar_producto_variedad
 }

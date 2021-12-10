@@ -35,7 +35,7 @@ export class ConfigService {
       
       const fd = new FormData();
       fd.append('titulo', data.titulo);
-      fd.append('categorias', data.categorias);
+      fd.append('categorias', JSON.stringify(data.categorias));
       fd.append('serie', data.serie);
       fd.append('correolativo', data.correolativo);
       fd.append('logo', file);
@@ -45,6 +45,15 @@ export class ConfigService {
     
     const url = base_url + `/update_config`;
     return this.http.put(url, data, this.headers );
+  }
+
+  getImg(id: string): string{
+    return `${base_url}/logo_img/${id}`;
+  }
+
+  getCat(): Observable<any>{
+    const url = base_url + `get_cat`;
+    return this.http.get(url, this.headers);
   }
 
 

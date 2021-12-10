@@ -1,0 +1,86 @@
+<!-- Page title-->
+<div class="border-bottom  mb-2">
+    <h1 class="mt-2 mt-md-4 pt-2">Variedad de {{producto}}</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+      <p class="text-muted">Este módulo se establecen las variedades del producto.</p>
+
+    </div>
+</div>
+
+
+<div class="card box-shadow-sm">
+    <div class="card-header">
+        <h5 style="margin-bottom: 0px;">Variedad de {{producto}}</h5>
+    </div>
+
+    <div class="card-body">
+        <div style="max-width: 48rem;">
+
+
+            <div class="form-group row align-items-center">
+                <div class="col-md-8">
+                    <!-- <input class="form-control" type="text" name="titulo" [(ngModel)]="variedad" id="text-input" placeholder="Titulo"> -->
+                    <label for=""> Titulo de la variedad</label>
+                    <!-- Button addon on the right -->
+                    <div class="input-group mb-3">
+                        <input class="form-control" type="text" [(ngModel)]="titulo_variedad" placeholder="Titulo variedad">
+                    </div>
+        
+                    <!-- Button addon on the right -->
+                    <div class="input-group">
+                        <input class="form-control" type="text" [(ngModel)]="variedad" placeholder="Variedad">
+                        <button class="btn btn-primary" (click)="crearVariedad()" type="button">Agregar</button>
+                    </div>
+        
+                </div>
+                <div class="col-md-12">
+                    <!-- <a (click)="crearVariedad()" style="cursor: pointer;" class="mb-5 mt-5">Agregar</a> -->
+
+
+                    <div class="table-responsive mt-3">
+                        <table class="table table-sm">
+                            <thead >
+                                <tr>
+                                <th>Titulo</th>
+                                <th>Eliminar</th>
+                                </tr>
+                            </thead>
+
+                            <ng-container *ngIf="variedades.length === 0">
+                                <tbody>
+                                    <tr colspan="2" class="text-center">
+                                        <span  class="text-muted">No hay variedades.</span>
+                                    </tr>
+                                </tbody>
+                            </ng-container>
+                            <ng-container *ngIf="variedades.length !== 0">
+                                <tbody>
+                                    <tr *ngFor="let variedad of variedades; let i = index;" >
+                                        <td>{{variedad.titulo}}</td>
+                                        <td>
+                                            <a class="text-danger" (click)="eliminarVariedad(i)" style="cursor: pointer;">Eliminar</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </ng-container>
+                            
+                        
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+
+            
+        </div>
+        
+    </div>
+    <div class="card-footer">
+        <!-- Button with border spinner -->
+        <button *ngIf="loading" type="button" class="btn btn-primary btn-icon  mr-3" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </button>
+        <button *ngIf="!loading" (click)="updateVariedad()" class="btn btn-primary mr-3">Guardar cambios</button>
+        <button   class="btn btn-danger mr-3" [routerLink]="'/products'">Regresar</button>
+    </div>
+</div> 
