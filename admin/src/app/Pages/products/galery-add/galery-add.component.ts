@@ -58,22 +58,25 @@ export class GaleryAddComponent implements OnInit {
 
   eliminarFoto(img: any){
 
-
-
-    this.productoService.eliminarGaaleria(img, this.id)
-    .subscribe(({message}) => {
-      iziToast.show({
-        title: 'OK',
-        titleColor: '#1DC74C',
-        class: 'text-success',
-        position: 'topRight',
-        message: '' + message
-      })
-      
-
-      this.activatedRoute.params.subscribe(({id}) => {this.cargarProducto(id)})
-      
+    Swal.fire({
+      title: `Eliminar imagen de la galeria de este prducto?`,
+      text: "Esta acción no se puede revertir!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, Eliminar!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.productoService.eliminarGaaleria(img, this.id).subscribe(({message}) =>{
+          this.activatedRoute.params.subscribe(({id}) => {this.cargarProducto(id)})
+          Swal.fire(
+            'Elimiando!',
+            '' + message,
+            'success'
+          )
+        })
+      }
     })
+
   }
 
   updateVariedad(){

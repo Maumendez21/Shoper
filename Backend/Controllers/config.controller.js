@@ -44,7 +44,7 @@ const updateConfigAdmin = async (req, res) => {
     // "61aa8d13a84b755837df94f2" Laboral
     // "61b10015db6d4f2e0ca52330" Personal
 
-    let configPut  = await Config.findByIdAndUpdate({_id: "61aa8d13a84b755837df94f2"}, data);
+    let configPut  = await Config.findByIdAndUpdate({_id: "61b10015db6d4f2e0ca52330"}, data);
     console.log(configPut);
 
 
@@ -74,7 +74,7 @@ const getConfigById = async (req, res) => {
 
     try {
         
-        const _config = await Config.findById("61aa8d13a84b755837df94f2");
+        const _config = await Config.findById("61b10015db6d4f2e0ca52330");
 
         res.status(200).send({
             ok: true,
@@ -111,7 +111,7 @@ const getCategos = async (req, res) => {
 
     try {
         
-        const _config = await Config.findById("61aa8d13a84b755837df94f2");
+        const _config = await Config.findById("61b10015db6d4f2e0ca52330");
 
         res.status(200).send({
             ok: true,
