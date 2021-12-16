@@ -5,6 +5,9 @@ import Swal from 'sweetalert2';
 import { NgForm } from '@angular/forms';
 declare var iziToast: any;
 
+import { Workbook } from "exceljs";
+import * as fs from 'file-saver';
+
 @Component({
   selector: 'app-inventary',
   templateUrl: './inventary.component.html',
@@ -23,11 +26,23 @@ export class InventaryComponent implements OnInit {
   public product: any;
 
   public inventarios: Array<any> = [];
+  public _inventarios: Array<any> = [];
   public inventario: any = {};
   getInventario(id: string){
     this.productoService.getInventarioById(id)
     .subscribe(({data}) => {
       this.inventarios = data;
+
+      console.log(this.inventarios);
+      
+
+      this.inventarios.forEach(element => {
+        this._inventarios.push({
+          admin: element.admin.nombres + " " +  element.admin.apellidos,
+          cant: element.cantidad,
+          prov: element.proveedor
+        })
+      });
     })
   }
 
@@ -125,6 +140,36 @@ export class InventaryComponent implements OnInit {
       }
     })
   }
+
+  exportExcel(){
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet("Reporte de inventario de " + this.titulo);
+
+    worksheet.addRow(undefined);
+    for (let x1 of this._inventarios){
+      let x2=Object.keys(x1);
+
+      let temp=[]
+      for(let y of x2){
+        temp.push(x1[y])
+      }
+      worksheet.addRow(temp)
+    }
+
+    let fname='REP02- ';
+
+    worksheet.columns = [
+      { header: 'Administrador', key: 'col1', width: 30},
+      { header: 'Cantidad', key: 'col2', width: 15},
+      { header: 'Proveedor', key: 'col3', width: 15},
+    ]as any;
+
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, fname+'-'+new Date().valueOf()+'.xlsx');
+    });
+  }
+
 
 
 }

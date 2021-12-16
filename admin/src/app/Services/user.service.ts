@@ -23,10 +23,16 @@ export class UserService {
       return false;
     }
     
+    console.log(helper.isTokenExpired(this.token) );
+
+    if (helper.isTokenExpired(this.token)) {
+      localStorage.removeItem('token')
+      return false;
+    }
+
     try {
       var decodedToken = helper.decodeToken(this.token)
-      // console.log(decodedToken);
-
+      
       if (!decodedToken) {
         localStorage.removeItem('token')
         return false;

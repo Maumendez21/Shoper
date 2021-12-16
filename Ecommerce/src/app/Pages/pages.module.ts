@@ -4,13 +4,15 @@ import { PagesComponent } from './pages.component';
 import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../Shared/shared.module';
+import { LoginComponent } from './login/login.component';
 
 
 
 @NgModule({
   declarations: [
     PagesComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,

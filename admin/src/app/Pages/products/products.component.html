@@ -15,8 +15,11 @@
         <label class="sr-only" for="inline-form-input-username">Nombre</label>
         <div class="input-group mr-sm-4">
 
-        <input class="form-control" (keyup)="getProducts(title.value)" #title name="titulo" type="text" id="inline-form-input-username" placeholder="Nombre del producto">
+          <input class="form-control" (keyup)="getProducts(title.value)" #title name="titulo" type="text" id="inline-form-input-username" placeholder="Nombre del producto">
         </div>
+
+        <button class="btn btn-success" (click)="exportExcel()" >Exportar Excel</button>
+
       </form>
     </div>
     <div class="card-body">

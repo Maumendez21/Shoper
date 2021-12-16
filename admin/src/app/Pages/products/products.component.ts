@@ -5,6 +5,10 @@ import Swal from 'sweetalert2';
 declare var iziToast: any;
 const base_url = environment.API_URL;
 
+// import * as Excel from 'exceljs'
+
+import { Workbook } from "exceljs";
+import * as fs from 'file-saver';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -16,7 +20,9 @@ export class ProductsComponent implements OnInit {
     private productService: ProductService
   ) { }
 
+
   public products: Array<any> = [];
+  public _products: Array<any> = [];
   public page = 1;
   public pageSize = 5;
   public loading = true;
@@ -31,6 +37,21 @@ export class ProductsComponent implements OnInit {
     this.productService.getProducts(parameter).subscribe(({data}) => {
       
       this.products = data;
+
+      this.products.forEach(element => {
+        this._products.push({
+          titulo: element.titulo,
+          stock: element.stock,
+          precio: element.precio,
+          categoria: element.categoria,
+          n_ventas: element.nventas
+        })
+      });
+
+      console.log(this._products);
+      
+
+
       this.loading = false;
     }, ({error}) => {
       iziToast.show({
@@ -63,6 +84,37 @@ export class ProductsComponent implements OnInit {
         })
       }
     })
+  }
+
+  exportExcel(){
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet("Reporte de productos");
+
+    worksheet.addRow(undefined);
+    for (let x1 of this._products){
+      let x2=Object.keys(x1);
+
+      let temp=[]
+      for(let y of x2){
+        temp.push(x1[y])
+      }
+      worksheet.addRow(temp)
+    }
+
+    let fname='REP01- ';
+
+    worksheet.columns = [
+      { header: 'Producto', key: 'col1', width: 30},
+      { header: 'Stock', key: 'col2', width: 15},
+      { header: 'Precio', key: 'col3', width: 15},
+      { header: 'Categoria', key: 'col4', width: 25},
+      { header: 'N° ventas', key: 'col5', width: 15},
+    ]as any;
+
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, fname+'-'+new Date().valueOf()+'.xlsx');
+    });
   }
 
   
