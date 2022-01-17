@@ -11,6 +11,7 @@ api.post('/login_cliente', clienteController.login_cliente);
 api.get('/client_list/:tipo?/:filter?',  [validateJWT] , clienteController.cliente_list);
 api.get('/client/:id',  [validateJWT] , clienteController.getClienteById);
 api.put('/update_client/:id',  [validateJWT] , clienteController.ActualizarClienteAdmin);
+api.put('/update_client_guest/:id',  [validateJWT] , clienteController.ActualizarClienteGuest);
 api.delete('/delete_client/:id',  [validateJWT] , clienteController.BorrarClienteAdmin);
 // ,  [validateJWT]
 module.exports = api;

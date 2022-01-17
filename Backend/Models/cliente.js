@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 var clienteSchema = Schema({
     nombres:       {type: String, required: true},
     apellidos:     {type: String, required: true},
-    pais:          {type: String, required: false},
+    pais:          {type: String, default: '', required: false},
     email:         {type: String, required: true},
     password:      {type: String, required: true},
     perfil:        {type: String, default: 'perfil.png', required: false},

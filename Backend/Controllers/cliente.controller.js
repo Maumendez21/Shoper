@@ -202,6 +202,8 @@ const getClienteById = async (req, res) => {
 
         const client = await cliente.findById(id);
 
+        // client.password = bcrypt.
+
         res.status(200).send({
             ok: true,
             client
@@ -217,6 +219,73 @@ const getClienteById = async (req, res) => {
 }
 
 
+const ActualizarClienteGuest = async (req, res) => {
+
+
+    
+
+    const id = req.params.id;
+
+    const data = {
+        ...req.body,
+    }
+
+    
+    if (data.password) {
+        console.log(data.password);
+        bcrypt.hash(data.password, null, null, async (err, hash) => {
+            if (hash) {
+                data.password = hash;
+
+                try {
+                    console.log('hay pass');
+                    const client = await cliente.findByIdAndUpdate({_id: id}, {
+                        nombres: data.nombres,
+                        apellidos: data.apellidos,
+                        telefono: data.telefono,
+                        f_nacimiento: data.f_nacimiento,
+                        dni: data.dni,
+                        genero: data.genero,
+                        pais: data.pais,
+                        password: data.password
+                    });
+                    return res.status(200).send({ok: true, cliente: client});
+                } catch (error) {
+                    return res.status(500).send({ok: false, message:'Hubo un error, comunicate con el administrador.'});
+                }
+            
+
+                
+            }else {
+                res.status(500).send({ok: false, message: 'Error, contacta al administrador.', data: undefined})
+                return;
+            }
+        })
+    }else
+    {
+        try {
+            console.log('no hay pass');
+            const client = await cliente.findByIdAndUpdate({_id: id}, {
+                nombres: data.nombres,
+                apellidos: data.apellidos,
+                telefono: data.telefono,
+                f_nacimiento: data.f_nacimiento,
+                dni: data.dni,
+                genero: data.genero,
+                pais: data.pais,
+            });
+            return res.status(200).send({ok: true, cliente: client});
+        } catch (error) {
+            return res.status(500).send({ok: false, message:'Hubo un error, comunicate con el administrador.'});
+        }
+    }
+
+    
+
+    
+}
+
+
 
 
 module.exports = {
@@ -226,5 +295,6 @@ module.exports = {
     regsitro_cliente_admin,
     getClienteById,
     ActualizarClienteAdmin,
-    BorrarClienteAdmin
+    BorrarClienteAdmin,
+    ActualizarClienteGuest
 }

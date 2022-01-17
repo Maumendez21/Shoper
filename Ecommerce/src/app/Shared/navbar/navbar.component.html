@@ -18,17 +18,36 @@
         <!-- Toolbar -->
         <div class="d-flex align-items-center order-lg-3">
           <ul class="nav nav-tools flex-nowrap">
-            <li class="nav-item d-lg-block d-none mb-0">
-              <a [routerLink]="'/login'" class="nav-tool">
+            <li *ngIf="client_ls === undefined" class="nav-item d-lg-block d-none mb-0">
+              <a  [routerLink]="'/login'" class="nav-tool ">
                 <i class="cxi-profile nav-tool-icon"></i>
                 <span class="nav-tool-label">Iniciar Sesión</span>
               </a>
+              <!-- <a *ngIf="client_ls !== undefined"  class="nav-tool dropdown-toggle" data-bs-toggle="dropdown">
+                <i class="cxi-profile nav-tool-icon"></i>
+                <span class="nav-tool-label">{{client_ls.nombres}} {{client_ls.apellidos}}</span>
+              </a>
+
+              -->
+
+
             </li>
+
+            <li *ngIf="client_ls !== undefined" class="nav-item dropdown">
+              <a  class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{{client_ls.nombres}} {{client_ls.apellidos}}</a>
+              <ul class="dropdown-menu">
+                <li><a [routerLink]="'/profile'" routerLinkActive="active" class="dropdown-item">Mi Perfil</a></li>
+                <li><a style="cursor: pointer;" (click)="logout()" class="dropdown-item">Cerrar sesión</a></li>
+                <!-- <li><a href="contacts.html" class="dropdown-item">Contacts</a></li>
+                <li><a href="order-tracking.html" class="dropdown-item">Order Tracking</a></li> -->
+              </ul>
+            </li>
+
             <li class="divider-vertical mb-0 d-lg-block d-none"></li>
-            <li class="nav-item align-self-center mb-0">
-              <a href="#" class="nav-tool pr-lg-0" data-toggle="offcanvas" data-target="cart">
+            <li *ngIf="client_ls !== undefined" class="nav-item align-self-center mb-0">
+              <a (click)="openModalCart()" style="cursor: pointer;" class="nav-tool pr-lg-0">
                 <i class="cxi-cart nav-tool-icon"></i>
-                <span class="badge badge-success align-middle mt-n1 ml-2 px-2 py-1 font-size-xs">4</span>
+                <span class="badge badge-success align-middle mt-n1 ml-2 px-2 py-1 font-size-xs">{{cart.length}}</span>
               </a>
             </li>
             <li class="divider-vertical mb-0 d-lg-none d-block"></li>
@@ -56,11 +75,11 @@
               <a  class="nav-link" routerLinkActive="active" [routerLink]="'/home'" [routerLinkActiveOptions]="{exact: true}" >Inicio</a>
             </li>
             <li class="nav-item dropdown">
-              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Shop</a>
+              <a routerLinkActive="active" [routerLink]="'/products/category/all'" class="nav-link dropdown-toggle" data-toggle="dropdown">Tienda</a>
               <ul class="dropdown-menu">
-                <li><a href="shop-catalog.html" class="dropdown-item">Catalog with Filters</a></li>
-                <li><a href="shop-single.html" class="dropdown-item">Single Product</a></li>
-                <li><a href="checkout.html" class="dropdown-item">Checkout</a></li>
+                <li *ngFor="let catego of categorias">
+                  <a [routerLink]="'/products/category/' + catego.titulo"  class="dropdown-item"> <i class="{{catego.icono}}"></i> &nbsp; {{catego.titulo}}</a>
+                </li>
               </ul>
             </li>
             <li class="nav-item dropdown mega-dropdown">
@@ -145,3 +164,67 @@
       </div>
     </div>
   </header>
+
+<div id="cart" class="cs-offcanvas cs-offcanvas-right">
+
+  <!-- Header -->
+  <div class="cs-offcanvas-cap align-items-center border-bottom">
+    <h2 class="h5 mb-0">Tu carrito ({{cart.length}})</h2>
+    <button (click)="openModalCart()" class="close mr-n1" type="button" data-dismiss="offcanvas" aria-label="Close" >
+      <span class="h3 font-weight-normal mb-0" aria-hidden="true" >×</span>
+    </button>
+  </div>
+
+  <!-- Body -->
+  <div class="cs-offcanvas-body">
+    <!-- Item -->
+    <div 
+      class="media p-4 border-bottom mx-n4" 
+      *ngFor="let item of cart"
+    >
+      <a href="shop-single.html" style="min-width: 80px;">
+        <img [src]="urlImg + 'product_img/' + item.producto.portada" width="80" alt="Product thumb">
+        <!-- [src]="urlImg + 'product_img/' + product.portada" -->
+      </a>
+      <div class="media-body pl-3">
+        <div class="d-flex justify-content-between">
+          <div class="pr-2">
+            <h3 class="font-size-sm mb-3">
+              <a href="shop-single.html" class="nav-link font-weight-bold">{{item.producto.titulo}}</a>
+            </h3>
+            <ul class="list-unstyled font-size-xs mt-n2 mb-2">
+              <li class="mb-0"><span class="text-muted">{{item.producto.titulo_variedad}}:</span> {{item.variedad}}</li>
+            </ul>
+            <div class="d-flex align-items-center">
+              <input type="number" class="form-control form-control-sm bg-light mr-3" style="width: 4.5rem;" readonly value="{{item.cantidad}}">
+              <!-- <s class="font-size-xs text-muted">$31.00</s> -->
+              <div class="text-nowrap"><strong class="text-danger">${{item.producto.precio}}</strong> </div>
+            </div>
+            <button class="btn btn-link btn-sm text-decoration-none px-0 pb-0">
+              Mover a
+              <i class="cxi-heart ml-1"></i>
+            </button>
+          </div>
+          <div class="nav-muted mr-n2">
+            <a (click)="delete(item._id)" style="cursor: pointer;" class="nav-link px-2 mt-n2" title="Quitar" ><i class="cxi-delete"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <!-- Footer -->
+  <div class="cs-offcanvas-cap flex-column border-top">
+    <div class="d-flex align-items-center justify-content-between mb-3 pb-1">
+      <span class="text-muted mr-2">Subtotal:</span>
+      <span class="h5 mb-0">${{subTotal}}</span>
+    </div>
+    <a [routerLink]="'/cart'" class="btn btn-primary btn-lg btn-block">
+      <i class="cxi-credit-card font-size-lg mt-n1 mr-1"></i>
+      Checkout
+    </a>
+  </div>
+
+
+</div>

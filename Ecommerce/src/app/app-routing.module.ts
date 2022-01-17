@@ -1,7 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PagesRoutingModule } from './Pages/pages.routing';
-import { AuthRoutingModule } from './Auth/auth.routing';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},

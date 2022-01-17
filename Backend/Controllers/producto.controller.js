@@ -77,7 +77,7 @@ const productos_list = async (req, res) => {
     
 
     if (filtro != 'all') {
-        let reg = await producto.find({titulo: new RegExp(filtro, 'i') });
+        let reg = await producto.find({titulo: new RegExp(filtro, 'i') }).sort({createdAt: -1});
         res.status(200).send({data:reg});
         return;
 
@@ -308,6 +308,47 @@ const eliminar_producto_galeria = async (req, res) => {
 
 }
 
+// PUBLIC 
+const getProductBySlug = async (req, res) => {
+    const slug = req.params.slug;
+    try {
+        
+        const product = await producto.findOne({slug});
+
+        res.status(200).send({
+            ok: true,
+            product
+        })
+        
+    } catch (error) {
+        res.status(500).send({
+            ok: false,
+            message: error.message + ''
+        });
+    }
+
+}
+
+const productos_recomend_list = async (req, res) => {
+
+    let categoria = req.params.catego;
+    
+
+    if (categoria != '') {
+        let reg = await producto.find({categoria}).sort({createdAt: -1}).limit(8);
+        res.status(200).send({data:reg});
+        return;
+
+    }
+
+
+    let reg = await producto.find();
+    res.status(200).send({ok: true, data:reg})
+}
+
+
+
+
 module.exports = {
     registro_producto_admin,
     productos_list,
@@ -320,5 +361,7 @@ module.exports = {
     add_inventary_producto,
     actualizar_producto_variedad,
     actualizar_producto_galeria,
-    eliminar_producto_galeria
+    eliminar_producto_galeria,
+    getProductBySlug,
+    productos_recomend_list
 }

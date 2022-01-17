@@ -4,13 +4,31 @@ var bodyparser = require('body-parser');
 var mongoose = require('mongoose');
 const cors = require('cors');
 var port = process.env.PORT || 4201;
+
+
 var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io')(server, {
+    cors: {origin: '*'}
+});
+
+io.on('connection', (socket)=>{
+    socket.on('delete-carrito', (data)=>{
+        io.emit('new-carrito', data);
+    });
+
+    socket.on('add-carrito', (data)=>{
+        io.emit('new-carrito-add', data);
+        console.log(data);
+    });
+})
 
 var cliente_route = require('./Routes/cliente.routes');
 var admin_route = require('./Routes/admin.routes');
 var producto_route = require('./Routes/producto.routes');
 var cupon_route = require('./Routes/cupon.routes');
 var config_route = require('./Routes/config.routes');
+var carrito_route = require('./Routes/carrito.routes');
 
 app.use(cors());
 
@@ -18,7 +36,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/shop' ,(err, db) => {
     if (err) {
         console.log(err);
     }else {
-        app.listen(port, function () {
+        server.listen(port, function () {
             console.log('Servidor corriendo en ' + port);
         })
     }
@@ -46,5 +64,6 @@ app.use('/api', admin_route);
 app.use('/api', producto_route);
 app.use('/api', cupon_route);
 app.use('/api', config_route);
+app.use('/api', carrito_route);
 
 module.exports = app;
